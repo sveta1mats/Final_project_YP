@@ -1,0 +1,53 @@
+Last login: Tue Aug  8 17:48:32 on ttys000
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+mbp-svetlana:~ svetlanamats$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/svetlanamats/.ssh/id_rsa): 
+/Users/svetlanamats/.ssh/id_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/svetlanamats/.ssh/id_rsa
+Your public key has been saved in /Users/svetlanamats/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:mSumdUKsYIe7W7P0+X4EpHabQ7lfUCki7+ocf0D7vNA svetlanamats@mbp-svetlana
+The key's randomart image is:
++---[RSA 3072]----+
+|             .   |
+|      . o . o    |
+|       = o o     |
+|   . .o Bo.      |
+|  + ..o=S* .     |
+| . + o  Oo. .    |
+|  . = *.+BE.     |
+|   + O.B .*      |
+|  o.o.=o+o..     |
++----[SHA256]-----+
+mbp-svetlana:~ svetlanamats$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDyAkJydGydau8T5sjSKpKHinUv+tCukwl5OPhr127MFuaMWycz4Ii9zbctg6Vuo6LwP1rWbn7XTOAZbV8iY7+NJDRC4ZzD+N/Pas5D8wbiQFGTU5gNX96Zsayoihj+nYAHywHbyUIE+Vrz1ZmgnceuD2cr2rL/ahawTnOSNCvZigS8maEkowBaUqmIs0+qaic9QGwnYpC+iW93qZXyGXT668i8y6DIYyoSM4QFQ7wJXsH8jAjoJWXHaailUnjc8f8mYtPHrQfnYI1XzSDeO+X26rxso7R3FUxIj4bqWZYYvpuLk5O+qmlfWRF0DU1p8xN8gIBqflVVoy+4olxHYTUuV93A7+3xwaimmf0B+vZC2vEoKNqwwPM9IPv7Z4j0gANQKFnaIFBO+sjusQPkL9eC0M9ExnhTA9bpoQl6aOfWw2QGDhvUlzBJVbmJweI04MaxSUG3HTrccoekd8FtDOWqI5vY7FNj4PACMRo8zVoqXVMkeyGY3dKqPU4JoyDd7Ws= svetlanamats@mbp-svetlana
+mbp-svetlana:~ svetlanamats$ ssh ae6faf70-aa94-4b1f-8087-0af2105d8b59@serverhub.praktikum-services.ru -p 4554
+morty@526d345a0596:~$ psql -U morty -d scooter_rent
+Password for user morty: 
+psql (11.18 (Debian 11.18-0+deb10u1))
+Type "help" for help.
+
+scooter_rent=# SELECT c.login, COUNT(o."inDelivery")  FROM "Couriers" AS c INNER JOIN "Orders" AS o ON o."courierId" = c.id WHERE o."inDelivery" = true GROUP BY c.login;
+ login | count 
+-------+-------
+ dodo  |     2
+ gogo  |     2
+(2 rows)
+
+scooter_rent=# SELECT track, CASE WHEN o.finished = true THEN 2 WHEN o.cancelled = true THEN -1 WHEN o."inDelivery" = true THEN 1 ELSE 0 END AS status FROM "Orders" AS o;
+ track  | status 
+--------+--------
+ 501997 |      1
+ 501997 |      2
+   1064 |      1
+   1064 |      1
+(4 rows)
+
+scooter_rent=# 
